@@ -139,7 +139,7 @@ module Graphiti
       {}.tap do |attrs|
         resource.attributes.each_pair do |name, config|
           if config.values_at(:readable, :writable).any? && config[:schema]
-            attrs[name] = {
+            attrs[name.to_s.camelize(:lower)] = {
               type: config[:type].to_s,
               readable: flag(config[:readable]),
               writable: flag(config[:writable]),
@@ -155,7 +155,7 @@ module Graphiti
         resource.extra_attributes.each_pair do |name, config|
           next unless config[:schema]
 
-          attrs[name] = {
+          attrs[name.to_s.camelize(:lower)] = {
             type: config[:type].to_s,
             readable: flag(config[:readable]),
             description: resource.attribute_description(name)
@@ -191,7 +191,7 @@ module Graphiti
           if attr[:sortable].is_a?(Symbol)
             config[:guard] = true
           end
-          s[name] = config
+          s[name.to_s.camelize(:lower)] = config
         end
       end
     end
@@ -222,7 +222,7 @@ module Graphiti
           if filter[:required] # one-off filter, not attribute
             config[:required] = true
           end
-          f[name] = config
+          f[name.to_s.camelize(:lower)] = config
         end
       end
     end
